@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Bola de ouro 2o Ano E.M. 2k23</title>
+    <style>
+    body {
+  background-color: #f5f5f5;
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+  font-size: 32px;
+}
+
+form {
+  margin: 20px 0;
+  text-align: center;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 18px;
+}
+
+input[type="text"] {
+  padding: 5px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+button[type="button"] {
+  padding: 5px 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: none;
+  background-color: #008cba;
+  color: #fff;
+  cursor: pointer;
+}
+
+button[type="button"]:hover {
+  background-color: #006b8f;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+li {
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+li button {
+  margin-left: 10px;
+  padding: 5px 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: none;
+  background-color: #008cba;
+  color: #fff;
+  cursor: pointer;
+}
+
+li button:hover {
+  background-color: #006b8f;
+}
+
+li input[type="number"] {
+  padding: 5px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 60px;
+  text-align: center;
+}
+
+.error {
+  color: #ff0000;
+  font-size: 14px;
+  margin-top: 5px;
+}
+    </style>
+    <script>
+      function adicionarNome() {
+        var nome = document.getElementById("nome").value.trim();
+        if (nome.length === 0) {
+          alert("Por favor, digite um nome.");
+          return;
+        }
+        var nomes = JSON.parse(localStorage.getItem("nomes")) || [];
+        if (nomes.indexOf(nome) !== -1) {
+          alert("Este nome já foi adicionado.");
+          return;
+        }
+        nomes.push(nome);
+        localStorage.setItem("nomes", JSON.stringify(nomes));
+        atualizarLista();
+        document.getElementById("nome").value = "";
+      }
+
+      function atualizarLista() {
+        var nomes = JSON.parse(localStorage.getItem("nomes")) || [];
+        var lista = document.getElementById("lista");
+        lista.innerHTML = "";
+        for (var i = 0; i < nomes.length; i++) {
+          var li = document.createElement("li");
+          var nome = nomes[i];
+          var pontos = JSON.parse(localStorage.getItem(nome)) || 0;
+          li.innerHTML =
+            nome +
+            " - Pontos: " +
+            pontos +
+            " <button onclick='adicionarPonto(\"" +
+            nome +
+            "\")'>+</button>" +
+            " <button onclick='removerPonto(\"" +
+            nome +
+            "\")'>-</button>" +
+            " <button onclick='editarPontos(\"" +
+            nome +
+            "\")'>Editar</button>" +
+            " <button onclick='excluirNome(\"" +
+            nome +
+            "\")'>Excluir</button>";
+          lista.appendChild(li);
+        }
+      }
+
+      function adicionarPonto(nome) {
+        var pontos = JSON.parse(localStorage.getItem(nome)) || 0;
+        pontos++;
+        localStorage.setItem(nome, pontos);
+        atualizarLista();
+      }
+
+      function removerPonto(nome) {
+        var pontos = JSON.parse(localStorage.getItem(nome)) || 0;
+        pontos--;
+        localStorage.setItem(nome, pontos);
+        atualizarLista();
+      }
+
+      function editarPontos(nome) {
+        var pontos = prompt("Digite o novo valor de pontos:", "0");
+        if (pontos === null) {
+          return;
+        }
+        pontos = parseInt(pontos);
+        if (isNaN(pontos)) {
+          alert("Por favor, digite apenas números.");
+          return;
+        }
+        localStorage.setItem(nome, pontos);
+        atualizarLista();
+      }
+
+      function excluirNome(nome) {
+        if (confirm("Deseja realmente excluir este nome?")) {
+          var nomes = JSON.parse(localStorage.getItem("nomes")) || [];
+          var index = nomes.indexOf(nome);
+          if (index !== -1) {
+            nomes.splice(index, 1);
+            localStorage.setItem("nomes", JSON.stringify(nomes));
+            localStorage.removeItem(nome);
+            atualizarLista();
+          }
+        }
+      }
+    </script>
+  </head>
+  <body onload="atualizarLista()">
+    <h1 style="text-align:center">Bola de ouro 2o Ano E.M. 2k23</h1>
+    <form>
+      <label for="nome">Nome:</label>
+      <input type="text" id="nome" name="nome" />
+      <button type="button" onclick="adicionarNome()">Adicionar</button>
+    </form>
+    <ul id="lista"></ul>
+  </body>
+</html>
