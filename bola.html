@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Bolão de outo 2° Ano E.M. 2k23</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style type="text/css">
+		body {
+			font-size: 58px;
+			margin: 0;
+			padding: 0;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+
+		h1 {
+			margin-top: 50px;
+			text-align: center;
+		}
+
+		form {
+			margin-top: 30px;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+
+		input[type="text"] {
+			font-size: 58px;
+			padding: 10px;
+			margin-bottom: 10px;
+			text-align: center;
+			width: 300px;
+		}
+
+		input[type="submit"] {
+			font-size: 58px;
+			padding: 10px 20px;
+			background-color: #4CAF50;
+			color: white;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+		}
+
+		ul {
+			margin-top: 30px;
+			padding: 0;
+			list-style: none;
+			width: 500px;
+		}
+
+		li {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 10px;
+			border-bottom: 1px solid black;
+			font-size: 50px;
+		}
+
+		li:last-child {
+			border-bottom: none;
+		}
+
+		button {
+			font-size: 60px;
+			background-color: #4CAF50;
+			color: white;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+			padding: 10px;
+			margin: 0 20px;
+		}
+
+		.edit {
+			background-color: #2196F3;
+			margin-left: 20px;
+			color: white;
+		}
+
+		.delete {
+			background-color: #f44336;
+			color: white;
+		}
+
+		input[type="number"] {
+			font-size: 24px;
+			padding: 10px;
+			margin-right: 10px;
+			text-align: center;
+			width: 80px;
+		}
+	</style>
+</head>
+<body>
+	<h1 style="text-align:center; font-size: 36px;">Bolão de ouro 2° Ano E.M. 2k23</h1>
+	<label for="nome" style="font-size: 24px;">Nome:</label>
+	<input type="text" id="nome" style="font-size: 30px;" />
+	<button onclick="adicionar()" style="font-size: 24px;">Adicionar</button>
+	<p id="mensagem" style="font-size: 24px;"></p>
+	<ul id="lista-nomes" style="list-style: none; padding-left: 0; font-size: 30px;">
+	</ul>
+	<script>
+		var nomes = [];
+
+		function adicionar() {
+			var nome = document.getElementById("nome").value;
+			if (nome.trim() === "") {
+				document.getElementById("mensagem").innerHTML = "Por favor, insira um nome válido";
+				return;
+			}
+			if (nomes.includes(nome)) {
+				document.getElementById("mensagem").innerHTML = "Este nome já foi adicionado";
+				return;
+			}
+			document.getElementById("mensagem").innerHTML = "";
+			nomes.push(nome);
+			var listaNomes = document.getElementById("lista-nomes");
+			var novoItem = document.createElement("li");
+			var novoNome = document.createTextNode(nome);
+			var contador = 0;
+			var novoContador = document.createElement("span");
+			novoContador.innerHTML = contador;
+			novoContador.style.marginLeft = "20px";
+			var botaoMais = document.createElement("button");
+			botaoMais.innerHTML = "+";
+			botaoMais.onclick = function() {
+				contador++;
+				novoContador.innerHTML = contador;
+			};
+			var botaoMenos = document.createElement("button");
+			botaoMenos.innerHTML = "-";
+			botaoMenos.onclick = function() {
+				if (contador > 0) {
+					contador--;
+					novoContador.innerHTML = contador;
+				}
+			};
+			var botaoEditar = document.createElement("button");
+			botaoEditar.innerHTML = "Editar";
+			botaoEditar.onclick = function() {
+				var novoValor = prompt("Digite o novo valor de pontos para " + nome, contador);
+				if (novoValor === null) {
+					return;
+				}
+				var numero = parseInt(novoValor);
+				if (!isNaN(numero)) {
+					contador = numero;
+					novoContador.innerHTML = contador;
+				}
+			};
+			var botaoExcluir = document.createElement("button");
+			botaoExcluir.innerHTML = "Excluir";
+			botaoExcluir.onclick = function() {
+				var indice = nomes.indexOf(nome);
+				if (indice !== -1) {
+					nomes.splice(indice, 1);
+					listaNomes.removeChild(novoItem);
+				}
+			};
+			novoItem.appendChild(novoNome);
+			novoItem.appendChild(novoContador);
+			novoItem.appendChild(botaoMais);
+			novoItem.appendChild(botaoMenos);
+			novoItem.appendChild(botaoEditar);
+			novoItem.appendChild(botaoExcluir);
+			listaNomes.appendChild(novoItem);
+		}
+	</script>
+</body>
+</html>
