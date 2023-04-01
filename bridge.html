@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Bola de Ouro 2º Ano E.M 2k22</title>
+	<style>
+img {
+  display: block; /* para centralizar a imagem horizontalmente */
+  margin: 0 auto; /* para centralizar a imagem verticalmente */
+  max-width: 20%; /* para limitar a largura máxima da imagem a 50% da largura do contêiner */
+  height: auto; /* para manter a proporção de aspecto da imagem */
+}
+
+  body {
+    text-align: center;
+  }
+  p {
+    text-align: center;
+  }
+
+/* Define o estilo da página */
+body {
+  background-color: #f2f2f2;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Define o estilo do cabeçalho */
+h1 {
+  text-align: center;
+  color: #333;
+  margin-top: 50px;
+}
+
+form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+}
+
+label {
+  display: block;
+  width: 80px;
+  text-align: right;
+  margin-right: 10px;
+  align-items: center;
+}
+
+input[type="text"] {
+  padding: 5px;
+  font-size: 16px;
+  border: none;
+  border-radius: 3px;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+  margin-right: 10px;
+}
+
+button[type="button"] {
+  padding: 5px 10px;
+  font-size: 16px;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+/* Define o estilo da lista */
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 30px auto;
+  max-width: 600px;
+}
+
+li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px;
+  margin-bottom: 10px;
+  background-color: #fff;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
+}
+
+li span {
+  font-weight: bold;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+button + button {
+  margin-left: 5px;
+}
+	</style>
+  </head>
+  <body>
+    <h1>Bola de Ouro 2º Ano E.M 2k22</h1>
+    <form>
+      <label for="nome">Nome:</label>
+      <input type="text" id="nome">
+      <button type="submit">Adicionar</button>
+    </form>
+    <ul id="lista"></ul>
+    <script>
+const motivations = [
+"O pebolim é um esporte onde você pode ser o Pelé mesmo sem saber chutar uma bola. - Pelé",
+"Não importa se é pebolim ou futebol, o importante é ter habilidade com os pés (ou mãos). - Cristiano Ronaldo",
+"O pebolim é como a vida: às vezes você está no comando, às vezes é a bola. - Lionel Messi",
+"No pebolim, a disputa é tão acirrada que até as figurinhas sofrem lesões. - Diego Maradona",
+"O pebolim não tem juiz, mas tem o torcedor que sempre vê pênalti a favor do seu time. - Ronaldinho Gaúcho",
+"O pebolim é o esporte perfeito para quem quer jogar futebol sem suar. - Zlatan Ibrahimovic",
+"Se você pensa que pebolim é fácil, tente jogar com os pés. - Neymar Jr.",
+"Pebolim é como a vida: você precisa ter bons companheiros para chegar ao gol. - Kaká",
+"A habilidade no pebolim é importante, mas ter um nome criativo para o seu time é essencial. - David Beckham",
+"O pebolim é o esporte mais democrático do mundo: homens, mulheres, crianças e até palitos podem jogar. - Marta Vieira da Silva",
+"No pebolim, a bola não entra por acaso, ela entra porque você treinou muito. - Cristiano Ronaldo",
+"O segredo para vencer no pebolim é não subestimar o adversário, nem mesmo quando ele é uma criança de 5 anos. - Lionel Messi",
+"O pebolim é o esporte onde a regra é clara: o importante é não deixar a bola cair. - Zico",
+"No pebolim, não importa se você joga com os pés ou com as mãos, o importante é jogar com o coração. - Pelé",
+"O pebolim é um esporte de estratégia: você precisa saber qual figura usar em cada jogada. - Gary Lineker",
+"O pebolim é como um jogo de xadrez, só que com mais adrenalina e menos paciência. - José Mourinho",
+"No pebolim, o jogador mais importante é aquele que tem a habilidade de marcar gols e salvar gols. - Manuel Neuer",
+"O pebolim é um esporte de precisão: você precisa acertar a bola no lugar certo para marcar um gol. - Andrea Pirlo",
+"O pebolim é o esporte perfeito para quem quer jogar em um time, mas não quer dividir o vestiário. - Gianluigi Buffon",
+"O pebolim é um esporte onde a torcida é tão importante quanto os jogadores em campo. - Johan Cruyff",
+"No pebolim, a bola pode ser pequena, mas a paixão é gigante. - Mia Hamm",
+"O pebolim é o esporte que mostra que tamanho não é documento: até uma figura pequena pode marcar um gol. - Lionel Messi",
+"O pebolim é o esporte que prova que a união faz a força: quando todos jogam juntos, ninguém vence sozinho. - Cristiano Ronaldo",
+];
+const motivationEl = document.createElement("p");
+motivationEl.textContent = motivations[Math.floor(Math.random() * motivations.length)];
+document.body.appendChild(motivationEl);
+const lista = JSON.parse(localStorage.getItem("lista") || "[]");
+const nomeInput = document.getElementById("nome");
+const listaElemento = document.getElementById("lista");
+
+function adicionar() {
+  const nome = nomeInput.value.trim();
+  if (!nome || lista.find((item) => item.nome === nome)) {
+    return;
+  }
+  lista.push({ nome, pontos: 0 });
+  atualizarLista();
+  localStorage.setItem("lista", JSON.stringify(lista));
+  nomeInput.value = "";
+}
+
+function remover(index) {
+  lista.splice(index, 1);
+  atualizarLista();
+  localStorage.setItem("lista", JSON.stringify(lista));
+}
+
+function atualizarLista() {
+  lista.sort((a, b) => b.pontos - a.pontos);
+  listaElemento.innerHTML = "";
+  lista.forEach((item, index) => {
+    const itemElemento = document.createElement("li");
+    itemElemento.innerHTML = `${item.nome}: <span>${item.pontos}</span>`;
+    const adicionarBotao = document.createElement("button");
+    adicionarBotao.innerText = "+";
+    adicionarBotao.addEventListener("click", () => {
+      item.pontos++;
+      atualizarLista();
+      localStorage.setItem("lista", JSON.stringify(lista));
+    });
+    const removerBotao = document.createElement("button");
+    removerBotao.innerText = "-";
+    removerBotao.addEventListener("click", () => {
+      if (item.pontos > 0) {
+        item.pontos--;
+        atualizarLista();
+        localStorage.setItem("lista", JSON.stringify(lista));
+      }
+    });
+    const editarBotao = document.createElement("button");
+    editarBotao.innerText = "Editar";
+    editarBotao.addEventListener("click", () => {
+      const novoValor = prompt("Digite o novo valor de pontos:", item.pontos);
+      if (novoValor !== null) {
+        item.pontos = parseInt(novoValor);
+        atualizarLista();
+        localStorage.setItem("lista", JSON.stringify(lista));
+      }
+    });
+    const excluirBotao = document.createElement("button");
+    excluirBotao.innerText = "Excluir";
+    excluirBotao.addEventListener("click", () => {
+      if (confirm(`Deseja excluir ${item.nome}?`)) {
+        remover(index);
+      }
+    });
+    itemElemento.appendChild(adicionarBotao);
+    itemElemento.appendChild(removerBotao);
+    itemElemento.appendChild(editarBotao);
+    itemElemento.appendChild(excluirBotao);
+    listaElemento.appendChild(itemElemento);
+  });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  atualizarLista();
+});
+
+document.querySelector("form").addEventListener("submit", (event) => {
+  event.preventDefault();
+  adicionar();
+});
+
+const input = document.getElementById('input-name');
+const addBtn = document.getElementById('add-btn');
+const scoreList = document.getElementById('score-list');
+
+let scores = JSON.parse(localStorage.getItem('scores')) || [];
+
+function renderScores() {
+  scoreList.innerHTML = '';
+  const sortedScores = scores.sort((a, b) => b.score - a.score);
+  sortedScores.forEach((item) => {
+    const li = document.createElement('li');
+    li.innerHTML = `${item.name}: <span id="${item.name}">${item.score}</span>`;
+    const plusBtn = document.createElement('button');
+    plusBtn.innerHTML = '+';
+    plusBtn.addEventListener('click', () => {
+      item.score++;
+      document.getElementById(`${item.name}`).innerHTML = item.score;
+      saveScores();
+    });
+    const minusBtn = document.createElement('button');
+    minusBtn.innerHTML = '-';
+    minusBtn.addEventListener('click', () => {
+      if (item.score > 0) {
+        item.score--;
+        document.getElementById(`${item.name}`).innerHTML = item.score;
+        saveScores();
+      }
+    });
+    const editBtn = document.createElement('button');
+    editBtn.innerHTML = 'Editar';
+    editBtn.addEventListener('click', () => {
+      const newScore = prompt('Digite o novo número de pontos:');
+      if (newScore !== null) {
+        item.score = Number(newScore);
+        document.getElementById(`${item.name}`).innerHTML = item.score;
+        saveScores();
+      }
+    });
+    const deleteBtn = document.createElement('button');
+    deleteBtn.innerHTML = 'Excluir';
+    deleteBtn.addEventListener('click', () => {
+      scores = scores.filter((score) => score.name !== item.name);
+      saveScores();
+      renderScores();
+    });
+    li.appendChild(plusBtn);
+    li.appendChild(minusBtn);
+    li.appendChild(editBtn);
+    li.appendChild(deleteBtn);
+    scoreList.appendChild(li);
+  });
+}
+
+function saveScores() {
+  localStorage.setItem('scores', JSON.stringify(scores));
+}
+
+addBtn.addEventListener('click', () => {
+  const name = input.value.trim();
+  if (name !== '' && !scores.some((score) => score.name === name)) {
+    scores.push({ name, score: 0 });
+    saveScores();
+    input.value = '';
+    renderScores();
+  }
+});
+
+renderScores();
+	</script>
+	<img src="https://i.imgur.com/oOGTYtp.png" alt="Bola de Ouro 2º E.M. 2k23">
+  </body>
+</html>
